@@ -28,7 +28,7 @@ export default function DashboardPage() {
     }
 
     try {
-      const res = await fetch(`http://localhost:4000/api/dashboard/summary?userId=${userId}`);
+      const res = await fetch(`/api/dashboard/summary?userId=${userId}`);
       if (!res.ok) throw new Error('Failed to fetch dashboard');
       const json = await res.json();
       setData(json);

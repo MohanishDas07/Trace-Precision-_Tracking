@@ -100,7 +100,7 @@ export default function ActionRecommendations({ userId, onActionComplete }: Acti
 
   const handleStart = async (actionId: string) => {
     try {
-      const res = await fetch(`http://localhost:4000/api/actions/${actionId}/start`, {
+      const res = await fetch(`/api/actions/${actionId}/start`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId })
@@ -116,7 +116,7 @@ export default function ActionRecommendations({ userId, onActionComplete }: Acti
 
   const handleComplete = async (actionId: string) => {
     try {
-      const res = await fetch(`http://localhost:4000/api/actions/${actionId}/complete`, {
+      const res = await fetch(`/api/actions/${actionId}/complete`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId })

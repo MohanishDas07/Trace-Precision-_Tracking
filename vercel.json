@@ -1,23 +1,15 @@
 {
-  "version": 2,
-  "builds": [
-    {
-      "src": "backend/src/server.ts",
-      "use": "@vercel/node"
+  "experimentalServices": {
+    "frontend": {
+      "root": "frontend",
+      "routePrefix": "/",
+      "framework": "nextjs"
     },
-    {
-      "src": "frontend/package.json",
-      "use": "@vercel/next"
+    "backend": {
+      "root": "backend",
+      "routePrefix": "/api",
+      "buildCommand": "npm install && npx prisma generate",
+      "entrypoint": "src/server.ts"
     }
-  ],
-  "rewrites": [
-    {
-      "source": "/api/(.*)",
-      "destination": "/backend/src/server.ts"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/frontend/$1"
-    }
-  ]
+  }
 }
