@@ -5,7 +5,7 @@ import dynamic from 'next/dynamic';
 const Globe = dynamic(() => import('react-globe.gl'), { ssr: false });
 
 export function CarbonGlobe() {
-  const globeEl = useRef<any>();
+  const globeEl = useRef<any>(null);
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
 
