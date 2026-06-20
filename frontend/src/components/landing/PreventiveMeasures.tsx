@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, Variants } from 'framer-motion';
 import { InteractiveTravelCard } from '@/components/ui/3d-card';
 import { DataModal, OfficialData } from '@/components/ui/data-modal';
 
@@ -65,7 +65,7 @@ const measures: Measure[] = [
   }
 ];
 
-const containerVariants = {
+const containerVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
@@ -73,7 +73,7 @@ const containerVariants = {
   }
 };
 
-const itemVariants = {
+const itemVariants: Variants = {
   hidden: { y: 30, opacity: 0 },
   visible: {
     y: 0,
