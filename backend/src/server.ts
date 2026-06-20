@@ -21,9 +21,14 @@ app.get('/api/health', (_req, res) => {
 });
 
 // ─── Routes ─────────────────────────────────────────────────────────────────
-app.use('/api/onboarding', onboardingRoutes);
-app.use('/api/dashboard', dashboardRoutes);
-app.use('/api/actions', actionsRoutes);
+const apiRouter = express.Router();
+apiRouter.use('/onboarding', onboardingRoutes);
+apiRouter.use('/dashboard', dashboardRoutes);
+apiRouter.use('/actions', actionsRoutes);
+
+// Mount on both /api (for local dev) and / (for Vercel's routePrefix stripping)
+app.use('/api', apiRouter);
+app.use('/', apiRouter);
 
 // ─── Start ──────────────────────────────────────────────────────────────────
 app.listen(PORT, () => {
