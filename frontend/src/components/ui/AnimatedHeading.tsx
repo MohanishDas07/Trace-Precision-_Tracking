@@ -6,6 +6,7 @@ import { cn } from '@/lib/utils';
 interface AnimatedHeadingProps {
   text: string;
   className?: string;
+  style?: React.CSSProperties;
   initialDelayMs?: number;
   charDelayMs?: number;
   transitionDurationMs?: number;
@@ -14,6 +15,7 @@ interface AnimatedHeadingProps {
 export function AnimatedHeading({
   text,
   className,
+  style,
   initialDelayMs = 200,
   charDelayMs = 30,
   transitionDurationMs = 500,
@@ -30,7 +32,7 @@ export function AnimatedHeading({
   const lines = text.split('\n');
 
   return (
-    <h1 className={cn("", className)}>
+    <h1 className={cn("", className)} style={style}>
       {lines.map((line, lineIndex) => {
         // Calculate the base delay for this line based on previous lines' lengths
         let previousCharsCount = 0;
