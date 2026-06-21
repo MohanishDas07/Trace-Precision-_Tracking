@@ -8,8 +8,8 @@
     "backend": {
       "root": "backend",
       "routePrefix": "/api",
-      "buildCommand": "npm install && npx prisma generate",
-      "entrypoint": "src/server.ts"
+      "buildCommand": "npm install && npx prisma generate && npm run build",
+      "entrypoint": "dist/server.js"
     }
   }
 }
