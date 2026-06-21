@@ -48,7 +48,7 @@ export function ActionModal({ isOpen, onClose, action, onCommit }: ActionModalPr
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className="relative w-full max-w-2xl overflow-hidden rounded-2xl bg-gradient-to-br from-[#0f172a] to-[#020617] border border-white/10 shadow-2xl"
+            className="relative w-full max-w-xl max-h-[90vh] overflow-y-auto rounded-xl bg-gradient-to-br from-[#0f172a] to-[#020617] border border-white/10 shadow-2xl"
           >
             <button
               onClick={onClose}
@@ -57,7 +57,7 @@ export function ActionModal({ isOpen, onClose, action, onCommit }: ActionModalPr
               <X size={20} />
             </button>
 
-            <div className="px-8 pb-8 pt-10">
+            <div className="px-6 pb-6 pt-8">
               <div className="flex gap-2 items-center mb-3">
                 <span className="px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-xs font-semibold text-emerald-400 tracking-wider">
                   {action.category}
@@ -67,23 +67,23 @@ export function ActionModal({ isOpen, onClose, action, onCommit }: ActionModalPr
                 </span>
               </div>
               
-              <h3 className="text-3xl font-bold font-serif text-white mb-6">{action.title}</h3>
+              <h3 className="text-2xl font-bold font-serif text-white mb-5">{action.title}</h3>
 
-              <div className="space-y-6">
-                <div className="p-6 rounded-xl bg-white/5 border border-white/10">
-                  <div className="text-sm uppercase tracking-wider text-blue-400 font-semibold mb-3 flex items-center justify-between">
+              <div className="space-y-4">
+                <div className="p-4 rounded-xl bg-white/5 border border-white/10">
+                  <div className="text-xs uppercase tracking-wider text-blue-400 font-semibold mb-2 flex items-center justify-between">
                     <span>Authentic Data Metric</span>
-                    <span className="px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-xs text-blue-300">
+                    <span className="px-2 py-0.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-[10px] text-blue-300">
                       {action.source}
                     </span>
                   </div>
-                  <p className="text-lg text-white font-sans leading-relaxed">
+                  <p className="text-base text-white font-sans leading-relaxed">
                     {action.metric}
                   </p>
                 </div>
 
-                <div className="p-6 rounded-xl bg-white/5 border border-white/10">
-                  <div className="text-sm uppercase tracking-wider text-emerald-400 font-semibold mb-2">
+                <div className="p-4 rounded-xl bg-white/5 border border-white/10">
+                  <div className="text-xs uppercase tracking-wider text-emerald-400 font-semibold mb-2">
                     How to Achieve It
                   </div>
                   <p className="text-white/80 font-sans leading-relaxed text-sm">
@@ -92,13 +92,13 @@ export function ActionModal({ isOpen, onClose, action, onCommit }: ActionModalPr
                 </div>
               </div>
 
-              <div className="mt-8 pt-6 border-t border-white/10 flex justify-end">
+              <div className="mt-6 pt-5 border-t border-white/10 flex justify-end">
                 <button 
                   onClick={() => {
                     onCommit(action.id);
                     onClose();
                   }}
-                  className="flex items-center gap-2 px-8 py-3 rounded-lg bg-emerald-500 text-white font-semibold hover:bg-emerald-600 transition-colors shadow-[0_0_20px_rgba(16,185,129,0.3)]"
+                  className="flex items-center gap-2 px-6 py-2.5 rounded-lg bg-emerald-500 text-white font-semibold hover:bg-emerald-600 transition-colors shadow-[0_0_15px_rgba(16,185,129,0.3)]"
                 >
                   <span>Commit to Action</span>
                   <CheckCircle2 size={18} />
