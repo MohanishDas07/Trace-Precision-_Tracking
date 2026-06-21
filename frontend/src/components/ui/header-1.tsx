@@ -9,19 +9,27 @@ import { createPortal } from 'react-dom';
 export function Header() {
 	const [open, setOpen] = React.useState(false);
 	const scrolled = useScroll(10);
+	const [hasDashboard, setHasDashboard] = React.useState(false);
+
+	React.useEffect(() => {
+		setHasDashboard(!!localStorage.getItem('userId'));
+	}, []);
 
 	const links = [
 		{
 			label: 'Home',
 			href: '/',
+			show: true
 		},
 		{
 			label: 'Dashboard',
 			href: '/dashboard',
+			show: hasDashboard
 		},
 		{
 			label: 'Risks Ahead',
 			href: '#risks',
+			show: true
 		},
 	];
 
@@ -58,7 +66,7 @@ export function Header() {
 					</div>
 				</div>
 				<div className="hidden items-center gap-6 md:flex">
-					{links.map((link) => (
+					{links.filter(l => l.show).map((link) => (
 						<a key={link.label} className={cn(buttonVariants({ variant: 'ghost' }), "text-[0.875rem] font-medium text-foreground/80 hover:text-foreground")} href={link.href}>
 							{link.label}
 						</a>
@@ -83,7 +91,7 @@ export function Header() {
 			</nav>
 			<MobileMenu open={open} className="flex flex-col justify-between gap-2 bg-background">
 				<div className="grid gap-y-4 pt-8 px-6">
-					{links.map((link) => (
+					{links.filter(l => l.show).map((link) => (
 						<a
 							key={link.label}
 							className={buttonVariants({

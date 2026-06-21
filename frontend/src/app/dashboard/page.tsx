@@ -85,9 +85,29 @@ export default function DashboardPage() {
           <h1 style={{ fontSize: '2rem', fontWeight: 600, letterSpacing: '-0.02em' }}>Welcome back, {data.user.name.split(' ')[0]}</h1>
           <p className="text-muted">Track and reduce your environmental impact.</p>
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', backgroundColor: 'var(--surface)', padding: '0.5rem 1rem', borderRadius: 'var(--radius-lg)', border: '1px solid var(--surface-border)' }}>
-          <span style={{ fontSize: '1.25rem' }}>🔥</span>
-          <span style={{ fontWeight: 600 }}>{data.streak} Actions</span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', backgroundColor: 'var(--surface)', padding: '0.5rem 1rem', borderRadius: 'var(--radius-lg)', border: '1px solid var(--surface-border)' }}>
+            <span style={{ fontSize: '1.25rem' }}>🔥</span>
+            <span style={{ fontWeight: 600 }}>{data.streak} Actions</span>
+          </div>
+          <button 
+            onClick={() => {
+              localStorage.clear();
+              router.push('/onboarding');
+            }}
+            style={{ 
+              padding: '0.5rem 1rem', 
+              borderRadius: 'var(--radius-lg)', 
+              border: '1px solid var(--surface-border)', 
+              backgroundColor: 'transparent',
+              color: 'var(--text-muted)',
+              fontSize: '0.875rem',
+              cursor: 'pointer'
+            }}
+            className="hover-scale"
+          >
+            Retake Quiz
+          </button>
         </div>
       </header>
 
