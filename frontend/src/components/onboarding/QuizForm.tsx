@@ -82,8 +82,11 @@ export default function QuizForm() {
 
       const data = await response.json();
       
-      // Store userId locally to identify the session for MVP
+      // Store userId and baseline data locally for the dashboard
       localStorage.setItem('userId', data.userId);
+      localStorage.setItem('userName', mockName);
+      localStorage.setItem('userEmail', mockEmail);
+      localStorage.setItem('baselineData', JSON.stringify(data.baseline));
       
       router.push('/dashboard');
     } catch (err) {

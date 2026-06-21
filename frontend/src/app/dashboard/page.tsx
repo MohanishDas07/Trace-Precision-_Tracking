@@ -20,7 +20,7 @@ export default function DashboardPage() {
   const [error, setError] = useState('');
   const router = useRouter();
 
-  const fetchDashboardData = async () => {
+  const loadDashboardData = () => {
     const userId = localStorage.getItem('userId');
     if (!userId) {
       router.push('/onboarding');
@@ -28,10 +28,26 @@ export default function DashboardPage() {
     }
 
     try {
-      const res = await fetch(`/api/dashboard/summary?userId=${userId}`);
-      if (!res.ok) throw new Error('Failed to fetch dashboard');
-      const json = await res.json();
-      setData(json);
+      const baselineRaw = localStorage.getItem('baselineData');
+      const userName = localStorage.getItem('userName') || 'User';
+      const userEmail = localStorage.getItem('userEmail') || '';
+
+      if (!baselineRaw) {
+        router.push('/onboarding');
+        return;
+      }
+
+      const baseline = JSON.parse(baselineRaw);
+
+      setData({
+        user: { name: userName, email: userEmail },
+        currentCo2e: baseline.totalCo2e,
+        baselineCo2e: baseline.totalCo2e,
+        totalSaved: 0,
+        treesEquiv: baseline.treesEquiv,
+        breakdowns: baseline.breakdowns,
+        streak: 0,
+      });
     } catch (err) {
       console.error(err);
       setError('Failed to load dashboard data.');
@@ -39,7 +55,7 @@ export default function DashboardPage() {
   };
 
   useEffect(() => {
-    fetchDashboardData();
+    loadDashboardData();
   }, []);
 
   if (error) return <div style={{ padding: '4rem', textAlign: 'center', color: '#ef4444' }}>{error}</div>;
@@ -85,7 +101,7 @@ export default function DashboardPage() {
 
       <ActionRecommendations 
         userId={localStorage.getItem('userId') as string} 
-        onActionComplete={fetchDashboardData} 
+        onActionComplete={loadDashboardData} 
       />
     </div>
   );
