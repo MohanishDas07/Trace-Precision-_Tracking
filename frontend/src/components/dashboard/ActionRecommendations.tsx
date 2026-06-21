@@ -86,7 +86,7 @@ export default function ActionRecommendations({ userId, onActionComplete }: Acti
 
   const fetchRecommendations = async () => {
     try {
-      const res = await fetch(`http://localhost:4000/api/actions/recommendations?userId=${userId}`);
+      const res = await fetch(`/api/actions/recommendations?userId=${userId}`);
       if (res.ok) {
         const data = await res.json();
         setRecommendations(data.recommendations);
