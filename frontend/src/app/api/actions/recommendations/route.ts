@@ -97,9 +97,33 @@ export async function GET(req: NextRequest) {
       );
     }
 
+    const diet = searchParams.get('diet');
+    const transport = searchParams.get('transport');
+    const housing = searchParams.get('housing');
+
+    let filteredActions = [...ALL_ACTIONS];
+
+    // Personalize Diet Recommendations
+    if (diet === 'meat_never') {
+      // If already vegan/vegetarian, don't recommend adopting a plant-rich diet or replacing beef
+      filteredActions = filteredActions.filter(a => a.id !== 'diet-1' && a.id !== 'diet-3');
+    }
+
+    // Personalize Transport Recommendations
+    if (transport === 'km_0') {
+      // If they already don't drive, no need to recommend EVs or E-Bikes for commute replacement
+      filteredActions = filteredActions.filter(a => a.category !== 'TRANSPORT');
+    }
+
+    // Personalize Housing Recommendations
+    if (housing === 'energy_low') {
+      // If energy usage is already very low, expensive solar panels are lower priority (filter out to make room for other actions)
+      filteredActions = filteredActions.filter(a => a.id !== 'housing-4');
+    }
+
     // Read baseline data to prioritize recommendations by highest-emission category
     // Return top 6 actions sorted by impact
-    const sorted = [...ALL_ACTIONS].sort((a, b) => b.impactCo2eEstimate - a.impactCo2eEstimate);
+    const sorted = filteredActions.sort((a, b) => b.impactCo2eEstimate - a.impactCo2eEstimate);
     const recommendations = sorted.slice(0, 6);
 
     return NextResponse.json({ recommendations });

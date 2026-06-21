@@ -92,7 +92,18 @@ export default function ActionRecommendations({ userId, onActionComplete }: Acti
 
   const fetchRecommendations = async () => {
     try {
-      const res = await fetch(`/api/actions/recommendations?userId=${userId}`);
+      let url = `/api/actions/recommendations?userId=${userId}`;
+      const storedAnswers = localStorage.getItem('quizAnswers');
+      if (storedAnswers) {
+        try {
+          const answers = JSON.parse(storedAnswers);
+          if (answers.diet) url += `&diet=${answers.diet}`;
+          if (answers.transport) url += `&transport=${answers.transport}`;
+          if (answers.housing) url += `&housing=${answers.housing}`;
+        } catch (e) {}
+      }
+
+      const res = await fetch(url);
       if (res.ok) {
         const data = await res.json();
         setRecommendations(data.recommendations);

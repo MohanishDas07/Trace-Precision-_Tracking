@@ -87,6 +87,7 @@ export default function QuizForm() {
       localStorage.setItem('userName', mockName);
       localStorage.setItem('userEmail', mockEmail);
       localStorage.setItem('baselineData', JSON.stringify(data.baseline));
+      localStorage.setItem('quizAnswers', JSON.stringify(answers));
       
       router.push('/dashboard');
     } catch (err) {
