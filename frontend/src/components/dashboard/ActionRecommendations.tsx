@@ -82,6 +82,12 @@ export default function ActionRecommendations({ userId, onActionComplete }: Acti
 
   useEffect(() => {
     fetchRecommendations();
+    const storedStarted = localStorage.getItem('startedActions');
+    if (storedStarted) {
+      try {
+        setStartedActions(JSON.parse(storedStarted));
+      } catch (e) {}
+    }
   }, [userId]);
 
   const fetchRecommendations = async () => {
@@ -100,33 +106,34 @@ export default function ActionRecommendations({ userId, onActionComplete }: Acti
 
   const handleStart = async (actionId: string) => {
     try {
-      const res = await fetch(`/api/actions/${actionId}/start`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId })
+      setStartedActions(prev => {
+        const next = [...prev, actionId];
+        localStorage.setItem('startedActions', JSON.stringify(next));
+        return next;
       });
-      
-      if (res.ok) {
-        setStartedActions(prev => [...prev, actionId]);
-      }
     } catch (err) {
       console.error("Failed to start action:", err);
     }
   };
 
-  const handleComplete = async (actionId: string) => {
+  const handleComplete = async (actionId: string, impact: number) => {
     try {
-      const res = await fetch(`/api/actions/${actionId}/complete`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId })
+      setStartedActions(prev => {
+        const next = prev.filter(id => id !== actionId);
+        localStorage.setItem('startedActions', JSON.stringify(next));
+        return next;
       });
       
-      if (res.ok) {
-        setStartedActions(prev => prev.filter(id => id !== actionId));
-        setRecommendations(prev => prev.filter(a => a.id !== actionId));
-        onActionComplete(); 
-      }
+      setRecommendations(prev => prev.filter(a => a.id !== actionId));
+      
+      // Update stats in localStorage
+      const currentSaved = parseInt(localStorage.getItem('totalSaved') || '0', 10);
+      const currentStreak = parseInt(localStorage.getItem('streak') || '0', 10);
+      
+      localStorage.setItem('totalSaved', (currentSaved + impact).toString());
+      localStorage.setItem('streak', (currentStreak + 1).toString());
+      
+      onActionComplete(); 
     } catch (err) {
       console.error("Failed to complete action:", err);
     }
@@ -202,7 +209,7 @@ export default function ActionRecommendations({ userId, onActionComplete }: Acti
                   <Button 
                     variant="primary" 
                     size="sm" 
-                    onClick={() => handleComplete(action.id)}
+                    onClick={() => handleComplete(action.id, action.impactCo2eEstimate)}
                     style={{ backgroundColor: '#10b981', color: '#fff', borderColor: '#10b981' }}
                   >
                     Mark Complete ✓

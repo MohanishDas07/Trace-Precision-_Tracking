@@ -39,14 +39,17 @@ export default function DashboardPage() {
 
       const baseline = JSON.parse(baselineRaw);
 
+      const totalSaved = parseInt(localStorage.getItem('totalSaved') || '0', 10);
+      const streak = parseInt(localStorage.getItem('streak') || '0', 10);
+
       setData({
         user: { name: userName, email: userEmail },
-        currentCo2e: baseline.totalCo2e,
+        currentCo2e: Math.max(0, baseline.totalCo2e - totalSaved),
         baselineCo2e: baseline.totalCo2e,
-        totalSaved: 0,
+        totalSaved: totalSaved,
         treesEquiv: baseline.treesEquiv,
         breakdowns: baseline.breakdowns,
-        streak: 0,
+        streak: streak,
       });
     } catch (err) {
       console.error(err);
